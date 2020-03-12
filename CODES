@@ -1,0 +1,41 @@
+import math #Ad lib.
+len_bugs=(sum(1 for _ in open('bugs.txt')))#https://www.it-swarm.asia/tr/python/python-kullanarak-bir-metin-dosyasindaki-toplam-satir-sayisini-saymak/1042133554/
+len_text=(sum(1 for _ in open('text.txt')))
+text_in_bug=""
+pre_bug_s=[]
+bug_s=[]
+#Initialization.
+bugs=open('bugs.txt','r')
+for bgs in range(len_bugs):
+     bug=bugs.readline()#Read to  bugs's row.
+     text=open('text.txt','r')
+     for row in range(len_text):
+         tx=text.readline()#Read to text's rows.
+         for crt in range(len(tx)-1):#Travel in the rows.
+             if bug[0]==tx[crt]:#Compare to text's elements and bug's elements.
+                 for eq in range(len(bug)-1):
+                     if bug[eq]==tx[crt+eq]:
+                         text_in_bug+=tx[crt+eq]#Ad bug
+                     else:
+                         text_in_bug=""
+                         break
+                 if text_in_bug!="" and bug.strip()== text_in_bug.strip() :#https://www.pythontr.com/makale/python-trim-islemleri-python-strip-fonksiyonu-333
+                     pre_bug_s.append([text_in_bug,row+1,crt+1,crt+len(text_in_bug)])#Ad all data.
+                     text_in_bug=""
+     text.close()
+bugs.close()
+#Create a list for present to user.
+bugs=open('bugs.txt','r')
+for i in range(len_bugs):
+    c=0
+    loc=[]
+    bug=bugs.readline()
+    for j in pre_bug_s:
+        if bug.strip()==j[0]: 
+            c+=1
+            loc.append([j[1],j[2],j[3]])
+    bug_s.append([bug.strip(),c,loc])
+    
+bugs.close()  
+bug_s.pop(-1)#Delete more element.          
+print(bug_s)              
